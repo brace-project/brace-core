@@ -4,10 +4,18 @@
 namespace Brace\Core;
 
 
+use Brace\Core\Mw\Next;
+use Laminas\Diactoros\Response;
 use Phore\Di\Container\DiContainer;
+use Psr\Http\Server\MiddlewareInterface;
 
 class BraceApp extends DiContainer
 {
+    /**
+     * @var Next
+     */
+    private $pipeline;
+
     /**
      * @param array $middlewares
      */
@@ -25,6 +33,10 @@ class BraceApp extends DiContainer
 
     public function serve ()
     {
+        $request = $this->resolve("request");
+        $emitter = $this->resolve("emitter");
+        $response = $this->pipeline->handle($request);
 
+        $emitter->emit($response);
     }
 }
