@@ -4,7 +4,9 @@
 namespace Brace\Core;
 
 
-class BraceApp
+use Phore\Di\Container\DiContainer;
+
+class BraceApp extends DiContainer
 {
     /**
      * @param array $middlewares
