@@ -25,9 +25,13 @@ class Next implements MiddlewareInterface, RequestHandlerInterface
      */
     private $fallbackRequestHandler;
 
-    public function __construct (array $chain, RequestHandlerInterface $fallbackRequestHandler)
+    public function __construct (RequestHandlerInterface $fallbackRequestHandler)
     {
-        $this->chain = $chain;
+        $this->fallbackRequestHandler = $fallbackRequestHandler;
+    }
+
+    public function setFallbackRequestHandler (RequestHandlerInterface $fallbackRequestHandler)
+    {
         $this->fallbackRequestHandler = $fallbackRequestHandler;
     }
 

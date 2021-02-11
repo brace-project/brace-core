@@ -12,23 +12,19 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+
+/**
+ * Class BraceApp
+ * @package Brace\Core
+ *
+ * @property Router $router
+ * @property Next $pipe
+ */
 class BraceApp extends DiContainer implements RequestHandlerInterface
 {
-    /**
-     * @var Next
-     */
-    private $pipeline;
-
-    /**
-     *
-     *
-     * @param MiddlewareInterface $middleware
-     * @return BraceApp
-     */
-    public function addMiddleware (MiddlewareInterface $middleware) : self
+    public function __construct()
     {
-        $this->pipeline->addMiddleWare($middleware);
-        return $this;
+        $this->define("pipe", new DiValue(new Next()));
     }
 
 
