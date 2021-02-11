@@ -4,6 +4,7 @@
 namespace Brace\Core;
 
 
+use Brace\Assets\AssetSet;
 use Brace\Core\Base\BraceAbstractMiddleware;
 use Brace\Core\Base\NotFoundMiddleware;
 use Brace\Core\Mw\Next;
@@ -33,6 +34,9 @@ use Psr\Http\Server\RequestHandlerInterface;
  * From brace/mod-router:
  * @property-read Router $router
  * @property-read Route $route    The currently active route as determined by RouterMiddleware
+ *
+ * From brace/mod-assets
+ * @property-read AssetSet $assets      Manage Assets like js, css or images
  */
 class BraceApp extends DiContainer implements RequestHandlerInterface
 {
