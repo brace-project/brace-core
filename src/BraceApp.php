@@ -7,9 +7,12 @@ namespace Brace\Core;
 use Brace\Core\Mw\Next;
 use Laminas\Diactoros\Response;
 use Phore\Di\Container\DiContainer;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class BraceApp extends DiContainer
+class BraceApp extends DiContainer implements RequestHandlerInterface
 {
     /**
      * @var Next
@@ -17,11 +20,15 @@ class BraceApp extends DiContainer
     private $pipeline;
 
     /**
-     * @param array $middlewares
+     *
+     *
+     * @param MiddlewareInterface $middleware
+     * @return BraceApp
      */
-    public function setMiddleWareChain (array $middlewares)
+    public function addMiddleware (MiddlewareInterface $middleware) : self
     {
-
+        $this->pipeline->addMiddleWare($middleware);
+        return $this;
     }
 
 
@@ -31,12 +38,19 @@ class BraceApp extends DiContainer
     }
 
 
-    public function serve ()
+    public function run ()
     {
         $request = $this->resolve("request");
         $emitter = $this->resolve("emitter");
-        $response = $this->pipeline->handle($request);
+        $response = $this->handle($request);
 
         $emitter->emit($response);
+    }
+
+
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+        return $this->pipeline->handle($request);
+
     }
 }
