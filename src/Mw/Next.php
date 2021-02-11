@@ -39,6 +39,15 @@ class Next implements MiddlewareInterface, RequestHandlerInterface
         $this->chain[] = $middleware;
     }
 
+    public function setChain(array $chain)
+    {
+        foreach ($chain as $idx => $elem) {
+            if ( ! $elem instanceof MiddlewareInterface)
+                throw new \InvalidArgumentException("Element $idx is no instance of MiddlewareInterface");
+        }
+        $this->chain = $chain;
+    }
+
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
