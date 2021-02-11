@@ -4,6 +4,8 @@
 namespace Brace\Core\Mw;
 
 
+use Brace\Core\Base\BraceAbstractMiddleware;
+use Brace\Core\BraceApp;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,16 +19,19 @@ class Next implements MiddlewareInterface, RequestHandlerInterface
      *
      * @var MiddlewareInterface[]
      */
-    public $chain = [];
+    private $chain = [];
+
+
 
     /**
      * @var RequestHandlerInterface
      */
     private $fallbackRequestHandler;
 
-    public function __construct (RequestHandlerInterface $fallbackRequestHandler)
+    public function __construct (RequestHandlerInterface $fallbackRequestHandler = null)
     {
         $this->fallbackRequestHandler = $fallbackRequestHandler;
+
     }
 
     public function setFallbackRequestHandler (RequestHandlerInterface $fallbackRequestHandler)
@@ -44,6 +49,7 @@ class Next implements MiddlewareInterface, RequestHandlerInterface
         foreach ($chain as $idx => $elem) {
             if ( ! $elem instanceof MiddlewareInterface)
                 throw new \InvalidArgumentException("Element $idx is no instance of MiddlewareInterface");
+
         }
         $this->chain = $chain;
     }
@@ -57,8 +63,12 @@ class Next implements MiddlewareInterface, RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $curMw = array_shift($this->chain);
-        if ($curMw === null)
-            return $this->fallbackRequestHandler->handle($request);
+        if ($curMw === null) {
+            if ($this->fallbackRequestHandler !== null) {
+                return $this->fallbackRequestHandler->handle($request);
+            }
+        }
+
         return $curMw->process($request, $this);
     }
 }
