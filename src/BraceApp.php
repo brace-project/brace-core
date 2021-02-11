@@ -4,7 +4,7 @@
 namespace Brace\Core;
 
 
-use Brace\Core\Base\NotFoundRequestHandler;
+use Brace\Core\Base\NotFoundMiddleware;
 use Brace\Core\Mw\Next;
 use Brace\Router\Router;
 use Brace\Router\Type\Route;
@@ -38,7 +38,7 @@ class BraceApp extends DiContainer implements RequestHandlerInterface
     public function __construct()
     {
         parent::__construct();
-        $this->define("pipe", new DiValue(new Next(new NotFoundRequestHandler($this))));
+        $this->define("pipe", new DiValue(new Next(new NotFoundMiddleware($this))));
     }
 
 
