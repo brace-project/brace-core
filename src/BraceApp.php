@@ -5,8 +5,10 @@ namespace Brace\Core;
 
 
 use Brace\Core\Mw\Next;
+use Brace\Router\Router;
 use Laminas\Diactoros\Response;
 use Phore\Di\Container\DiContainer;
+use Phore\Di\Container\Producer\DiValue;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -24,6 +26,7 @@ class BraceApp extends DiContainer implements RequestHandlerInterface
 {
     public function __construct()
     {
+        parent::__construct();
         $this->define("pipe", new DiValue(new Next()));
     }
 

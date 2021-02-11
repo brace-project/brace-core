@@ -18,7 +18,6 @@ class Next implements MiddlewareInterface, RequestHandlerInterface
      * @var MiddlewareInterface[]
      */
     public $chain = [];
-    public $index = 0;
 
     /**
      * @var RequestHandlerInterface
