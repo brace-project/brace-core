@@ -5,10 +5,9 @@ namespace Brace\Core;
 
 
 use Brace\Core\Mw\Next;
-use Brace\Router\Router;
-use Laminas\Diactoros\Response;
 use Phore\Di\Container\DiContainer;
 use Phore\Di\Container\Producer\DiValue;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -19,8 +18,16 @@ use Psr\Http\Server\RequestHandlerInterface;
  * Class BraceApp
  * @package Brace\Core
  *
- * @property Router $router
+ *
  * @property Next $pipe
+ *
+ * From request/response bridge:
+ * @property ResponseFactoryInterface $responseFactory
+ * @property ServerRequestInterface $serverRequest
+ *
+ * From brace/mod-router:
+ * @property Router $router
+ * @property Route
  */
 class BraceApp extends DiContainer implements RequestHandlerInterface
 {

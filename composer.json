@@ -13,7 +13,6 @@
     ],
     "require": {
         "php": ">=7.4",
-        "psr/container": "^1.0",
         "psr/http-server-handler": "^1.0.1",
         "psr/http-factory": "^1.0.1",
         "psr/http-server-middleware": "^1.0.1",
@@ -21,7 +20,8 @@
     },
 
     "require-dev": {
-        "phpunit/phpunit": "^8.1"
+        "phore/tester": "*",
+        "brace/mod-router": "*"
     },
     "autoload": {
         "psr-4": {
