@@ -27,11 +27,11 @@ use Psr\Http\Server\RequestHandlerInterface;
  *
  * From request/response bridge:
  * @property-read ResponseFactoryInterface $responseFactory
- * @property-read ServerRequestInterface $serverRequest
+ * @property-read ServerRequestInterface $request
  *
  * From brace/mod-router:
  * @property-read Router $router
- * @property-read Route $curRoute    The currently active route as determined by RouterMiddleware
+ * @property-read Route $route    The currently active route as determined by RouterMiddleware
  */
 class BraceApp extends DiContainer implements RequestHandlerInterface
 {
