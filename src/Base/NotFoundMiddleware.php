@@ -17,8 +17,7 @@ class NotFoundMiddleware extends BraceAbstractMiddleware
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $resp = $this->app->responseFactory->createResponse(404, '404 Route undefined: ' . $request->getMethod() . ": " . $request->getUri()->getPath());
-        return $resp
-            ->withHeader("Content-Type", "text/plain");
+        $resp = $this->app->responseFactory->createResponseWithBody('404 Route undefined: ' . $request->getMethod() . ": " . $request->getUri()->getPath(), 404);
+        return $resp;
     }
 }

@@ -27,7 +27,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  * @property-read EmitterInferface $emitter
  *
  * From request/response bridge:
- * @property-read ResponseFactoryInterface $responseFactory
+ * @property-read BraceResponseFactoryInterface $responseFactory
  * @property-read ServerRequestInterface $request
  *
  * From brace/mod-router:
