@@ -4,7 +4,10 @@
 namespace Brace\Core;
 
 
+use Brace\Core\Base\NotFoundRequestHandler;
 use Brace\Core\Mw\Next;
+use Brace\Router\Router;
+use Brace\Router\Type\Route;
 use Phore\Di\Container\DiContainer;
 use Phore\Di\Container\Producer\DiValue;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -19,22 +22,23 @@ use Psr\Http\Server\RequestHandlerInterface;
  * @package Brace\Core
  *
  *
- * @property Next $pipe
+ * @property-read Next $pipe
+ * @property-read EmitterInferface $emitter
  *
  * From request/response bridge:
- * @property ResponseFactoryInterface $responseFactory
- * @property ServerRequestInterface $serverRequest
+ * @property-read ResponseFactoryInterface $responseFactory
+ * @property-read ServerRequestInterface $serverRequest
  *
  * From brace/mod-router:
- * @property Router $router
- * @property Route
+ * @property-read Router $router
+ * @property-read Route $curRoute    The currently active route as determined by RouterMiddleware
  */
 class BraceApp extends DiContainer implements RequestHandlerInterface
 {
     public function __construct()
     {
         parent::__construct();
-        $this->define("pipe", new DiValue(new Next()));
+        $this->define("pipe", new DiValue(new Next(new NotFoundRequestHandler($this))));
     }
 
 
