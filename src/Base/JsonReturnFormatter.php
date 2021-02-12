@@ -30,4 +30,11 @@ class JsonReturnFormatter implements ReturnFormatterInterface
             ->withHeader("Content-Type", "application/json")
             ->withBody(phore_json_encode($response));
     }
+
+    public function canHandle($input): bool
+    {
+        if (is_array($input) || is_object($input))
+            return true;
+        return false;
+    }
 }
