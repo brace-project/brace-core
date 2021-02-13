@@ -4,7 +4,7 @@
 namespace Brace\Core;
 
 
-class AppBuilder
+class AppLoader
 {
 
     private static $appRoot = __DIR__ . "/../../../../app/";
