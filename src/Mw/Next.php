@@ -22,15 +22,9 @@ class Next implements MiddlewareInterface, RequestHandlerInterface
     private $chain = [];
 
 
-
-    /**
-     * @var RequestHandlerInterface
-     */
-    private $fallbackRequestHandler;
-
-    public function __construct (RequestHandlerInterface $fallbackRequestHandler = null)
+    public function __construct (
+        public ?RequestHandlerInterface $fallbackRequestHandler = null)
     {
-        $this->fallbackRequestHandler = $fallbackRequestHandler;
 
     }
 

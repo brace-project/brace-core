@@ -11,15 +11,11 @@ use Psr\Http\Message\ResponseInterface;
 class JsonReturnFormatter implements ReturnFormatterInterface
 {
 
-    /**
-     * @var BraceApp
-     */
-    private $app;
 
-    public function __construct(BraceApp $app)
-    {
-        $this->app = $app;
-    }
+
+    public function __construct(
+        private BraceApp $app
+    ){}
 
     public function transform($input): ResponseInterface
     {

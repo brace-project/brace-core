@@ -12,21 +12,21 @@ namespace Brace\Core\Helper;
 class Immutable
 {
 
-    private $__immutableData;
 
-    public function __construct(array $data)
-    {
-        $this->__immutableData = $data;
-    }
+    public function __construct(
+        private array $__immutableData
+    ){}
 
-    public function get(string $name, $default = null)
+    /**
+     * Get the value or return null if key was not found
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public function get(string $name) : mixed
     {
         if ( ! array_key_exists($name, $this->__immutableData)) {
-            if (func_num_args() == 1)
-                throw new \InvalidArgumentException("Missing value '$name' in ". get_class($this));
-            if ($default instanceof \Exception)
-                throw $default;
-            return $default;
+            return null;
         }
         return $this->__immutableData[$name];
     }
@@ -60,6 +60,11 @@ class Immutable
     public function __set($name, $value)
     {
         throw new \InvalidArgumentException("Cannot set '$name' on immutable");
+    }
+
+    public function __isset($name) : bool
+    {
+        return isset($this->__immutableData[$name]);
     }
 
 }
