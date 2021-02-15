@@ -71,20 +71,7 @@ class BraceApp extends DiContainer implements RequestHandlerInterface
         }
     }
 
-    public function __get($name)
-    {
-        return $this->resolve($name);
-    }
 
-    public function __set($name, $val)
-    {
-        throw new \InvalidArgumentException("Trying to set '$name' on app. Use define() to inject something.");
-    }
-
-    public function __isset ($name)
-    {
-        return $this->has($name);
-    }
 
     public function addModule (BraceModule $module)
     {
