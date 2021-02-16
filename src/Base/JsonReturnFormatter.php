@@ -21,10 +21,9 @@ class JsonReturnFormatter implements ReturnFormatterInterface
     {
         if ($input instanceof ResponseInterface)
             return $input;
-        $response = $this->app->responseFactory->createResponse();
+        $response = $this->app->responseFactory->createResponseWithBody(phore_json_encode($input), 200);
         return $response
-            ->withHeader("Content-Type", "application/json")
-            ->withBody(phore_json_encode($response));
+            ->withHeader("Content-Type", "application/json");
     }
 
     public function canHandle($input): bool
