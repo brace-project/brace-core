@@ -19,10 +19,11 @@ class ExceptionHandlerMiddleware extends BraceAbstractMiddleware
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $formatter = $this->execptionFormatter ?? new DefaultJsonExceptionFormatter($this->app);
+
         try {
             return $handler->handle($request);
         } catch (\Exception $ex) {
+            $formatter = $this->execptionFormatter ?? new DefaultJsonExceptionFormatter($this->app);
             return $formatter->format($ex);
         }
     }
