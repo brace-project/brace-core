@@ -24,9 +24,20 @@ class DefaultJsonExceptionFormatter implements ExceptionFormatterInterface
         $base = [
             "class" => get_class($e),
             "message" => $e->getMessage(),
+
         ];
+
         if ($this->showDebugInfo) {
-            $base["file"] = $e->getFile() . " [Line:" . $e->getLine() . "]";
+            $base["file"] = $e->getFile() . "(" . $e->getLine() . ")";
+            $base["trace"] = array_filter(
+                explode("\n", $e->getTraceAsString()),
+                function (string $in) {
+                    if (str_contains($in, "/vendor/"))
+                        return null;
+                    return $in;
+                }
+            );
+            $base["trace_full"] = explode("\n", $e->getTraceAsString());
         }
         return $base;
     }
@@ -47,10 +58,12 @@ class DefaultJsonExceptionFormatter implements ExceptionFormatterInterface
             ]
         ];
 
+
+
         $response = $this->app->responseFactory->createResponseWithBody(json_encode($data, JSON_PRESERVE_ZERO_FRACTION|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_SUBSTITUTE), 500);
 
         if ($e instanceof \Error)
-            error_log("Error caught by DefaultJsonExceptionHandler: '{$e->getMessage()}' in '{$e->getFile()}' [Line:{$e->getLine()}]");
+            error_log("Error caught by DefaultJsonExceptionHandler: '{$e->getMessage()}' in {$e->getFile()}({$e->getLine()})");
 
         return $response
             ->withHeader("Content-Type", "application/json");
