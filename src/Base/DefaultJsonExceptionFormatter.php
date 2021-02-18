@@ -19,7 +19,7 @@ class DefaultJsonExceptionFormatter implements ExceptionFormatterInterface
 
 
 
-    private function formatException(\Exception $e) : array
+    private function formatException(\Exception|\Error $e) : array
     {
         $base = [
             "class" => get_class($e),
@@ -31,7 +31,7 @@ class DefaultJsonExceptionFormatter implements ExceptionFormatterInterface
         return $base;
     }
 
-    public function format(\Exception $e): ResponseInterface
+    public function format(\Exception|\Error $e): ResponseInterface
     {
         $errors = [$this->formatException($e)];
         $prev = $e;
@@ -48,6 +48,10 @@ class DefaultJsonExceptionFormatter implements ExceptionFormatterInterface
         ];
 
         $response = $this->app->responseFactory->createResponseWithBody(json_encode($data, JSON_PRESERVE_ZERO_FRACTION|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_SUBSTITUTE), 500);
+
+        if ($e instanceof \Error)
+            error_log("Error caught by DefaultJsonExceptionHandler: '{$e->getMessage()}' in '{$e->getFile()}' [Line:{$e->getLine()}]");
+
         return $response
             ->withHeader("Content-Type", "application/json");
     }

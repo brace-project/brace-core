@@ -25,6 +25,9 @@ class ExceptionHandlerMiddleware extends BraceAbstractMiddleware
         } catch (\Exception $ex) {
             $formatter = $this->execptionFormatter ?? new DefaultJsonExceptionFormatter($this->app);
             return $formatter->format($ex);
+        } catch (\Error $ex) {
+            $formatter = $this->execptionFormatter ?? new DefaultJsonExceptionFormatter($this->app);
+            return $formatter->format($ex);
         }
     }
 }

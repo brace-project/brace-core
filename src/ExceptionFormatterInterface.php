@@ -9,6 +9,5 @@ use Psr\Http\Message\ResponseInterface;
 interface ExceptionFormatterInterface
 {
 
-    public function format(\Exception $e) : ResponseInterface;
-
+    public function format(\Exception|\Error $e) : ResponseInterface;
 }
