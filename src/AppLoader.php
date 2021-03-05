@@ -84,7 +84,7 @@ class AppLoader
             $return = $loaderFn($app);
             if ($return !== null) {
                 if ( ! $return instanceof BraceApp)
-                    throw new \InvalidArgumentException("Loader must return null or instance of BraceApp")
+                    throw new \InvalidArgumentException("Loader must return null or instance of BraceApp");
                 $app = $return;
             }
         }
