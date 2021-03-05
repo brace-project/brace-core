@@ -33,7 +33,6 @@ use Psr\Http\Server\RequestHandlerInterface;
  *
  * From brace/mod-router:
  * @property-read Router $router
- * @property-read Route $route    The currently active route as determined by RouterMiddleware
  *
  * From brace/mod-assets
  * @property-read AssetSet $assets      Manage Assets like js, css or images
@@ -76,6 +75,21 @@ class BraceApp extends DiContainer implements RequestHandlerInterface
     public function addModule (BraceModule $module)
     {
         $module->register($this);
+    }
+
+    public function redirect(string $target, array $query = []) : ResponseInterface
+    {
+        $response = $this->responseFactory->createResponse(301);
+        if ($query !== []) {
+            if ( ! str_contains($target, "?")) {
+                $target .= "?";
+            } else {
+                if ( ! str_ends_with($target, "&"))
+                    $target .= "&";
+            }
+            $target .= http_build_query($query);
+        }
+        return $response->withHeader("Location", $target);
     }
 
 
