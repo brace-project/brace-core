@@ -92,6 +92,5 @@ class BraceApp extends DiContainer implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         return $this->pipe->handle($request);
-
     }
 }

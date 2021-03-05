@@ -79,9 +79,14 @@ class AppLoader
         if ( ! isset (self::$apps[$alias]))
             throw new \InvalidArgumentException("App '$alias' is not defined.");
 
-        $app = new BraceApp();
+        $app = null;
         foreach (self::$apps[$alias] as $loaderFn) {
-            $loaderFn($app);
+            $return = $loaderFn($app);
+            if ($return !== null) {
+                if ( ! $return instanceof BraceApp)
+                    throw new \InvalidArgumentException("Loader must return null or instance of BraceApp")
+                $app = $return;
+            }
         }
         return $app;
     }
