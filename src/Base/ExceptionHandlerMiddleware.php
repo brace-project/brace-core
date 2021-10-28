@@ -4,6 +4,7 @@
 namespace Brace\Core\Base;
 
 
+use Brace\Core\ExceptionFormatterInterface;
 use Brace\Core\ReturnFormatterInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,7 +14,7 @@ class ExceptionHandlerMiddleware extends BraceAbstractMiddleware
 {
 
     public function __construct(
-        private ?ReturnFormatterInterface $execptionFormatter = null
+        private ?ExceptionFormatterInterface $execptionFormatter = null
     ) {}
 
 
