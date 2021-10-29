@@ -13,6 +13,8 @@ class AppLoader
 
     private static $appFilesAreLoaded = false;
 
+
+
     public static function SetAppRoot(string $appRoot = __DIR__ . "/../../../../app/") : void
     {
         self::$appRoot = $appRoot;
