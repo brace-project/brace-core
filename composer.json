@@ -18,7 +18,9 @@
         "psr/http-server-middleware": "^1.0.1",
         "phore/di-base": "dev-v3-preview"
     },
-
+    "suggest": {
+        "phore/dbg": "Switch environments dev/prod with debugging tools"
+    },
     "require-dev": {
         "phore/tester": "*",
         "brace/mod-router": "*"
