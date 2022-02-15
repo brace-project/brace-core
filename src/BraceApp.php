@@ -5,6 +5,7 @@ namespace Brace\Core;
 
 
 use Brace\Assets\AssetSet;
+use Brace\Command\Command;
 use Brace\Core\Base\BraceAbstractMiddleware;
 use Brace\Core\Base\NotFoundMiddleware;
 use Brace\Core\Mw\Next;
@@ -33,6 +34,9 @@ use Psr\Http\Server\RequestHandlerInterface;
  *
  * From brace/mod-router:
  * @property-read Router $router
+ *
+ * From brace/command
+ * @property-read Command $command
  *
  * From brace/mod-assets
  * @property-read AssetSet $assets      Manage Assets like js, css or images
