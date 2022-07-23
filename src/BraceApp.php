@@ -46,7 +46,8 @@ class BraceApp extends DiContainer implements RequestHandlerInterface
     public function __construct()
     {
         parent::__construct();
-
+        // Default self-reference
+        $this->define("braceApp", new DiValue($this));
     }
 
 
