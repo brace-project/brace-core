@@ -12,8 +12,9 @@ abstract class BraceAbstractMiddleware implements MiddlewareInterface
 
     /**
      * @var BraceApp
+     *
      */
-    protected $app;
+    public $app;
 
     /**
      * This is called on setChain();
