@@ -5,7 +5,13 @@ namespace Brace\Core\Helper;
 class ClassFileParser
 {
 
-    public static function extractPhpClasses(string $file)
+    /**
+     * Extract all FQCN from a php file
+     *
+     * @param string $file
+     * @return string[]
+     */
+    public static function extractPhpClasses(string $file) : array
     {
         $classes   = [];
         $namespace = '';
