@@ -20,6 +20,11 @@ class ExceptionHandlerMiddleware extends BraceAbstractMiddleware
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        // Throw Error instead of triggering a Error
+        set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+            throw new \Error($errstr . " in $errfile lineno $errline", $errno);
+        });
+
 
         try {
             return $handler->handle($request);
