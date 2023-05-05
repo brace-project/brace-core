@@ -9,6 +9,7 @@ use Brace\Command\Command;
 use Brace\Core\Base\BraceAbstractMiddleware;
 use Brace\Core\Base\NotFoundMiddleware;
 use Brace\Core\Mw\Next;
+use Brace\Dbg\BraceDbg;
 use Brace\Router\Router;
 use Brace\Router\Type\Route;
 use Phore\Di\Container\DiContainer;
@@ -18,6 +19,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+
+
 
 
 /**
@@ -43,12 +46,24 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 class BraceApp extends DiContainer implements RequestHandlerInterface
 {
-    public function __construct()
+    public readonly EnvironmentType $envoronmentType;
+
+    public function __construct(EnvironmentType $environmentType = null)
     {
+        if ($environmentType === null) {
+            if (class_exists(BraceDbg::class)) {
+                $environmentType = BraceDbg::$environmentType;
+            } else {
+                $environmentType = EnvironmentType::DEVELOPMENT;
+            }
+        }
+        $this->envoronmentType = $environmentType;
+
         parent::__construct();
         // Default self-reference
         $this->define("braceApp", new DiValue($this));
     }
+
 
 
     /**
