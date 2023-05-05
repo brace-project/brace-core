@@ -46,7 +46,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 class BraceApp extends DiContainer implements RequestHandlerInterface
 {
-    public readonly EnvironmentType $envoronmentType;
+    public readonly EnvironmentType $environmentType;
 
     public function __construct(EnvironmentType $environmentType = null)
     {
@@ -57,7 +57,7 @@ class BraceApp extends DiContainer implements RequestHandlerInterface
                 $environmentType = EnvironmentType::DEVELOPMENT;
             }
         }
-        $this->envoronmentType = $environmentType;
+        $this->environmentType = $environmentType;
 
         parent::__construct();
         // Default self-reference
