@@ -58,12 +58,11 @@ class DefaultJsonExceptionFormatter implements ExceptionFormatterInterface
             ]
         ];
 
-
-
         $response = $this->app->responseFactory->createResponseWithBody(json_encode($data, JSON_PRESERVE_ZERO_FRACTION|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_SUBSTITUTE), 500);
 
+        $uri = $this->app->request->getUri();
         if ($e instanceof \Error)
-            error_log("Error caught by DefaultJsonExceptionHandler: '{$e->getMessage()}' in {$e->getFile()}({$e->getLine()})");
+            error_log("Error caught by DefaultJsonExceptionHandler: '{$e->getMessage()}' on Uri \"$uri\" in {$e->getFile()}({$e->getLine()})");
 
         return $response
             ->withHeader("Content-Type", "application/json");
