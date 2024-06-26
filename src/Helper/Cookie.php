@@ -56,7 +56,8 @@ class Cookie
         }
 
         $str = urlencode($name) . '=' . rawurlencode($value ?? 'deleted');
-        $str .= '; expires=' . gmdate('D, d-M-Y H:i:s T', $expire ?: time() - 31536001);
+        if ($expire !== 0)
+            $str .= '; expires=' . gmdate('D, d-M-Y H:i:s T', $expire);
         $str .= $path ? "; path=$path" : '';
         $str .= $domain ? "; domain=$domain" : '';
         $str .= $secure ? '; secure' : '';
