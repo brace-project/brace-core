@@ -8,6 +8,26 @@ use Psr\Http\Message\ResponseInterface;
 
 class Cookie
 {
+    /**
+     * Set a cookie in an HTTP response with various options including SameSite for CORS.
+     *
+     * The SameSite attribute is crucial in CORS contexts as it allows you to assert
+     * if your cookie should be restricted to a first-party or same-site context.
+     * Setting SameSite to 'None' allows the cookie to be sent in cross-origin requests,
+     * providing that the cookie is also set with the Secure attribute.
+     *
+     * @param ResponseInterface $response The response object to which the cookie will be added.
+     * @param string $name The name of the cookie.
+     * @param string|null $value The value of the cookie (default null).
+     * @param int $expire The expiration time of the cookie as a Unix timestamp (default 0).
+     * @param string $path The path on the server where the cookie will be available (default '').
+     * @param string|null $domain The domain that the cookie is available to (default null).
+     * @param bool $secure Indicates that the cookie should only be transmitted over a secure HTTPS connection (default false).
+     * @param bool $httpOnly When TRUE the cookie will be made accessible only through the HTTP protocol (default true).
+     * @param string $sameSite The SameSite attribute of the cookie (None, Lax, Strict). Defaults to 'Lax'.
+     *
+     * @return ResponseInterface
+     */
     public static function setCookie(
         ResponseInterface $response,
         string $name,
@@ -16,9 +36,9 @@ class Cookie
         string $path = '',
         string $domain = null,
         bool $secure = false,
-        bool $httpOnly = true
+        bool $httpOnly = true,
+        string $sameSite = 'Lax' // Default to 'Lax' which is commonly a safe default
     ): ResponseInterface {
-        // from PHP source code
         if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
             throw new \InvalidArgumentException(sprintf('The cookie name "%s" contains invalid characters.', $name));
         }
@@ -26,43 +46,23 @@ class Cookie
             throw new \InvalidArgumentException('The cookie name cannot be empty.');
         }
 
-        // convert expiration time to a Unix timestamp
         if ($expire instanceof \DateTimeInterface) {
-            $expire = $expire->format('U');
+            $expire = $expire->getTimestamp();
         } elseif (!is_numeric($expire)) {
             $expire = strtotime($expire);
         }
-        if (false === $expire) {
+        if ($expire === false) {
             throw new \InvalidArgumentException('The cookie expiration time is not valid.');
         }
 
-        $str = urlencode($name) . '=';
+        $str = urlencode($name) . '=' . rawurlencode($value ?? 'deleted');
+        $str .= '; expires=' . gmdate('D, d-M-Y H:i:s T', $expire ?: time() - 31536001);
+        $str .= $path ? "; path=$path" : '';
+        $str .= $domain ? "; domain=$domain" : '';
+        $str .= $secure ? '; secure' : '';
+        $str .= $httpOnly ? '; httponly' : '';
+        $str .= "; SameSite=$sameSite"; // Append SameSite attribute
 
-        if ('' === (string)$value) {
-            $str .= 'deleted; expires=' . gmdate('D, d-M-Y H:i:s T', time() - 31536001);
-        } else {
-            $str .= rawurlencode($value);
-
-            if (0 !== $expire) {
-                $str .= '; expires=' . gmdate('D, d-M-Y H:i:s T', $expire);
-            }
-        }
-
-        if ($path !== null) {
-            $str .= '; path=' . $path;
-        }
-
-        if ($domain !== null) {
-            $str .= '; domain=' . $domain;
-        }
-
-        if (true === $secure) {
-            $str .= '; secure';
-        }
-
-        if (true === $httpOnly) {
-            $str .= '; httponly';
-        }
         return $response->withHeader('Set-Cookie', $str);
     }
 }
