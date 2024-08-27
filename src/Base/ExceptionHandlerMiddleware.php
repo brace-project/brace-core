@@ -26,6 +26,7 @@ class ExceptionHandlerMiddleware extends BraceAbstractMiddleware
         });
 
 
+
         try {
             return $handler->handle($request);
         } catch (\Exception $ex) {
