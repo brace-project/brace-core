@@ -83,7 +83,7 @@ class BraceApp extends DiContainer implements RequestHandlerInterface
         $this->define("pipe", new DiValue($pipe = new Next()));
         foreach ($middlewares as $idx => $middleware) {
             if ( ! $middleware instanceof MiddlewareInterface)
-                throw new \InvalidArgumentException("Element '$idx' is not an instance of MiddlewareInterface." . phore_var($middleware));
+                throw new \InvalidArgumentException("Element '$idx' is not an instance of MiddlewareInterface. Found: " . phore_debug_var($middleware));
             if ($middleware instanceof BraceAbstractMiddleware)
                 $middleware->_setApp($this);
             $pipe->addMiddleWare($middleware);
