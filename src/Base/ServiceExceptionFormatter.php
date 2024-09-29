@@ -27,7 +27,7 @@ class ServiceExceptionFormatter implements ExceptionFormatterInterface
     {
         $se =  $this->serviceExceptionKernel->fromThrowable($e);
         $data = $this->serviceExceptionKernel->toApiResponse($se);
-        $response = $this->app->responseFactory->createResponseWithBody(json_encode($data, JSON_PRESERVE_ZERO_FRACTION|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_SUBSTITUTE), $se->getHttpStatusCode())->withHeader("Content-Type", "application/json");;
+        $response = $this->app->responseFactory->createResponseWithBody(json_encode($data, JSON_PRESERVE_ZERO_FRACTION|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_SUBSTITUTE), $se->getCode())->withHeader("Content-Type", "application/json");;
         return $response;
     }
 }
