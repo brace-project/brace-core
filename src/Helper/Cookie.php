@@ -32,7 +32,7 @@ class Cookie
         ResponseInterface $response,
         string $name,
         string $value = null,
-        int $expire = 0,
+        int | string $expire = 0,
         string $path = '',
         string $domain = null,
         bool $secure = false,
@@ -64,6 +64,6 @@ class Cookie
         $str .= $httpOnly ? '; httponly' : '';
         $str .= "; SameSite=$sameSite"; // Append SameSite attribute
 
-        return $response->withHeader('Set-Cookie', $str);
+        return $response->withAddedHeader('Set-Cookie', $str);
     }
 }
