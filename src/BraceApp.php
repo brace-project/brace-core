@@ -47,10 +47,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 class BraceApp extends DiContainer implements RequestHandlerInterface
 {
     public readonly EnvironmentType $environmentType;
-    public readonly string $appBasePath;
-    public readonly string $apiBaseUrl;
+    public readonly string $url_prefix;
 
-    public function __construct(?EnvironmentType $environmentType = null, string $appBasePath = '', string $apiBaseUrl = '')
+    public function __construct(?EnvironmentType $environmentType = null, string $url_prefix = '')
     {
         if ($environmentType === null) {
             if (class_exists(BraceDbg::class)) {
@@ -60,8 +59,7 @@ class BraceApp extends DiContainer implements RequestHandlerInterface
             }
         }
         $this->environmentType = $environmentType;
-        $this->appBasePath = self::normalizeAppBasePath($appBasePath);
-        $this->apiBaseUrl = $apiBaseUrl !== '' ? rtrim($apiBaseUrl, '/') : $this->appBasePath;
+        $this->url_prefix = self::normalizeUrlPrefix($url_prefix);
 
         parent::__construct();
         // Default self-reference
@@ -70,13 +68,13 @@ class BraceApp extends DiContainer implements RequestHandlerInterface
 
 
 
-    private static function normalizeAppBasePath(string $appBasePath): string
+    private static function normalizeUrlPrefix(string $url_prefix): string
     {
-        $appBasePath = trim($appBasePath);
-        if ($appBasePath === '' || $appBasePath === '/') {
+        $url_prefix = trim($url_prefix);
+        if ($url_prefix === '' || $url_prefix === '/') {
             return '';
         }
-        return '/' . trim($appBasePath, '/');
+        return '/' . trim($url_prefix, '/');
     }
 
 
