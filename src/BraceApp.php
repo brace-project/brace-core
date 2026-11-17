@@ -47,8 +47,10 @@ use Psr\Http\Server\RequestHandlerInterface;
 class BraceApp extends DiContainer implements RequestHandlerInterface
 {
     public readonly EnvironmentType $environmentType;
+    public readonly string $appBasePath;
+    public readonly string $apiBaseUrl;
 
-    public function __construct(EnvironmentType $environmentType = null)
+    public function __construct(?EnvironmentType $environmentType = null, string $appBasePath = '', string $apiBaseUrl = '')
     {
         if ($environmentType === null) {
             if (class_exists(BraceDbg::class)) {
@@ -58,10 +60,23 @@ class BraceApp extends DiContainer implements RequestHandlerInterface
             }
         }
         $this->environmentType = $environmentType;
+        $this->appBasePath = self::normalizeAppBasePath($appBasePath);
+        $this->apiBaseUrl = $apiBaseUrl !== '' ? rtrim($apiBaseUrl, '/') : $this->appBasePath;
 
         parent::__construct();
         // Default self-reference
         $this->define("braceApp", new DiValue($this));
+    }
+
+
+
+    private static function normalizeAppBasePath(string $appBasePath): string
+    {
+        $appBasePath = trim($appBasePath);
+        if ($appBasePath === '' || $appBasePath === '/') {
+            return '';
+        }
+        return '/' . trim($appBasePath, '/');
     }
 
 
