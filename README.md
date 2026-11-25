@@ -22,9 +22,9 @@ Within the container these Dependencies are available by default
 | `serverRequest`     | ServerRequestInterface      |   |
 
 
-## Bridges
+## HTTP integration
 
-Brace
+Brace Core is normally used together with [brace/mod-request-laminas](https://github.com/brace-project/brace-mod-request-laminas). Core provides the application and HTTP interfaces; the Laminas module supplies their concrete PSR-7 implementation: incoming requests, query parameters, response creation and emission, including streamed and NDJSON responses.
 
 ## NDJSON streaming
 
