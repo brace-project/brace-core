@@ -34,6 +34,7 @@ deferred stream of JSON objects. The callback receives
 
 The response factory and emitter must support streaming, as implemented by
 [brace/mod-request-laminas](https://github.com/brace-project/brace-mod-request-laminas).
-- [PHP controller](examples/ndjson-handler.php)
-- [JavaScript client](examples/ndjson-client.js)
-- [Server configuration](examples/NDjson%20Config.md)
+
+- [PHP controller](https://github.com/brace-project/brace-mod-request-laminas/blob/main/examples/ndjson-handler.php)
+- [JavaScript client](https://github.com/brace-project/brace-mod-request-laminas/blob/main/examples/ndjson-client.js)
+- [Server configuration](https://github.com/brace-project/brace-mod-request-laminas/blob/main/examples/NDjson%20Config.md)
