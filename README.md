@@ -25,3 +25,13 @@ Within the container these Dependencies are available by default
 ## Bridges
 
 Brace
+
+## NDJSON streaming
+
+Use `$app->responseFactory->createNdjsonResponse($callback)` to return a
+deferred stream of JSON objects. The callback receives
+`Brace\Core\NdjsonStream`; call `send()` for each record.
+
+The response factory and emitter must support streaming, as implemented by
+[brace/mod-request-laminas](https://github.com/brace-project/brace-mod-request-laminas).
+See that package for PHP and JavaScript examples and web server configuration.
