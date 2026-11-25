@@ -1,5 +1,7 @@
 # brace-core
 
+Brace Core provides the application framework and abstract HTTP interfaces, not a concrete HTTP backend. It is normally used together with [brace/mod-request-laminas](https://github.com/brace-project/brace-mod-request-laminas), which provides PSR-7 requests, query parameters, response factories and response emission.
+
 ## Application URLs
 
 Configure the browser application mount and API base URL once on the application:
@@ -22,18 +24,14 @@ Within the container these Dependencies are available by default
 | `serverRequest`     | ServerRequestInterface      |   |
 
 
-## HTTP integration
+## Streaming
 
-Brace Core is normally used together with [brace/mod-request-laminas](https://github.com/brace-project/brace-mod-request-laminas). Core provides the application and HTTP interfaces; the Laminas module supplies their concrete PSR-7 implementation: incoming requests, query parameters, response creation and emission, including streamed and NDJSON responses.
+Use `$app->responseFactory->createStreamedResponse($callback)` for general
+streaming of raw output. The callback runs when the response is emitted.
 
-## NDJSON streaming
-
-Use `$app->responseFactory->createNdjsonResponse($callback)` to return a
+For NDJSON streaming, use `$app->responseFactory->createNdjsonResponse($callback)` to return a
 deferred stream of JSON objects. The callback receives
 `Brace\Core\NdjsonStream`; call `send()` for each record.
-
-The response factory and emitter must support streaming, as implemented by
-[brace/mod-request-laminas](https://github.com/brace-project/brace-mod-request-laminas).
 
 - [PHP controller](https://github.com/brace-project/brace-mod-request-laminas/blob/main/examples/ndjson-handler.php)
 - [JavaScript client](https://github.com/brace-project/brace-mod-request-laminas/blob/main/examples/ndjson-client.js)
